@@ -98,7 +98,7 @@ function draw() {
     jahoda.x = (Math.floor(Math.random() * (18 - 1) + 1)) * pixelCtverec;
     jahoda.y = (Math.floor(Math.random() * (18 - 1) + 1)) * pixelCtverec;
   } else {
-    //Metoda pop() odstraní poslední prvek z pole a vrátí jej
+    //Metoda pop() odstraní poslední prvek z pole a vyhodí jej
     snake.pop();
   }
   /*Pravidla pro ukončení hry z důvodu kolize, např. na mantinel*/
@@ -134,7 +134,7 @@ function draw() {
     ctx.fillText(datum, 17 * pixelCtverec, 1.6 * pixelCtverec);
   ctx.fillStyle = 'white';
   ctx.font = "25px Changa one";
-  ctx.fillText("Chceš skončit s hraním? Stiskni ESC.", 120, 600);
+  ctx.fillText("Chceš hru ihned ukončit? Stiskni ESC.", 100, 600);
   ctx.font = '45px Changa one';
 }
 /*Funkce kol() reaguje na to, jakou úroveň rychlosti si hráč vybral*/
