@@ -9,6 +9,9 @@ let minuty = 0;
 let interval = 0;
 let speed = 2;
 let game = 0;
+let hra = 0;
+let gamePaused = false;
+let gameLoop;
 let buttonS = document.getElementById('spustitS');
 let buttonP = document.getElementById('spustitP');
 let button = document.getElementById('spustit');
@@ -32,6 +35,15 @@ let jahoda = {
 let d;
 let score = 0;
 document.addEventListener('keydown', direction);
+function pauseGame() {
+  if (!gamePaused) {
+    hra = clearTimeout(hra);
+    gamePaused = true;
+  } else if (gamePaused) {
+    hra = setTimeout(gameLoop, 1000 / 30);
+    gamePaused = false;
+  }
+}
 /*Testování kláves pro šipky*/
 function direction(event) {
 
@@ -43,6 +55,8 @@ function direction(event) {
     d = 'RIGHT';
   else if (event.keyCode === 40)
     d = 'DOWN';
+  else if(event.keyCode === 80)
+    pauseGame();
 }
 /*Kolize*/
 function collision(newhead, snake) {
@@ -52,7 +66,6 @@ function collision(newhead, snake) {
   }
   return false;
 }
-
 /*Funkce draw() pro vykreslení herního pole a také jídla a hada*/
 function draw() {
   ctx.drawImage(ground, 0, 0);//Vykreslení herní plochy canvasu
@@ -82,7 +95,7 @@ function draw() {
   /*Podle stisknutí klávesy šipek se spustí herní čas*/
   else if (d === 'LEFT' || d === 'RIGHT' || d === 'DOWN' || d === 'UP') {
     date = new Date();
-    datum = Math.round((((date - startDate) / 1000) * 10) / 10);
+    datum = Math.floor((((date - startDate) / 100) /100)*10);
     if (datum >= 60) {
       minuty++;
       datum = 0;
