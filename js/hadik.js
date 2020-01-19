@@ -1,3 +1,4 @@
+/*Inicializace proměnných a konstant potřebných pro správný chod hry*/
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const pixelCtverec = 32; //inicalizace čtverce v canvasu o velikosti 32px*32px
@@ -16,6 +17,7 @@ const foodImg2 = new Image();
 
 ground.src = 'images/pozadi.jpg';
 foodImg2.src = 'images/jahoda.png'
+/*Inicializace pole objektů, které poté využijeme pro připojení dalších částí hada (zvětšení)*/
 let snake = [];
 snake[0] = {
   x: 9 * pixelCtverec,
@@ -30,7 +32,7 @@ let jahoda = {
 let d;
 let score = 0;
 document.addEventListener('keydown', direction);
-
+/*Testování kláves pro šipky*/
 function direction(event) {
 
   if (event.keyCode === 37)
@@ -42,7 +44,7 @@ function direction(event) {
   else if (event.keyCode === 40)
     d = 'DOWN';
 }
-
+/*Kolize*/
 function collision(newhead, snake) {
   for (let bod of snake) {
     if (newhead.x === bod.x && newhead.y === bod.y)
@@ -51,23 +53,10 @@ function collision(newhead, snake) {
   return false;
 }
 
-/*function vypisCas(){
-  interval = setInterval(function(){
-  date = new Date();
-  datum = Math.round((((date - startDate) / 1000)*10)/10);
-  if(datum >= 60) {
-    minuty++;
-    datum = 0;
-    startDate = new Date();
-  }
-  ctx.fillStyle = 'white';
-  ctx.fillText(minuty, 12 * pixelCtverec, 1.6 * pixelCtverec);
-  ctx.fillText(":", 13 * pixelCtverec, 1.6 * pixelCtverec);
-  ctx.fillText(datum , 14*pixelCtverec, 1.6 * pixelCtverec);
-  }, 65);
-  }*/
+/*Funkce draw() pro vykreslení herního pole a také jídla a hada*/
 function draw() {
-  ctx.drawImage(ground, 0, 0);
+  ctx.drawImage(ground, 0, 0);//Vykreslení herní plochy canvasu
+  /*Cyklus for, kde právě využijeme pole objektů pro vykreslení hada a jeho částí*/
   for (let i = 0; i < snake.length; i++) {
 
     ctx.fillStyle = (i == 0) ? 'darkred' : 'orange';
@@ -77,10 +66,11 @@ function draw() {
     ctx.strokeRect(snake[i].x, snake[i].y, pixelCtverec, pixelCtverec);
 
   }
+  /*Zde vykreslujeme jídlo hada*/
   ctx.drawImage(foodImg2, jahoda.x, jahoda.y, pixelCtverec, pixelCtverec);
   let snakeX = snake[0].x,
     snakeY = snake[0].y;
-
+  /*Posunování hada po ploše canvasu*/
   if (d === 'LEFT')
     snakeX -= pixelCtverec;
   if (d === 'UP')
@@ -89,6 +79,7 @@ function draw() {
     snakeX += pixelCtverec;
   if (d === 'DOWN')
     snakeY += pixelCtverec;
+  /*Podle stisknutí klávesy šipek se spustí herní čas*/
   else if (d === 'LEFT' || d === 'RIGHT' || d === 'DOWN' || d === 'UP') {
     date = new Date();
     datum = Math.round((((date - startDate) / 1000) * 10) / 10);
@@ -98,6 +89,7 @@ function draw() {
       startDate = new Date();
     }
   }
+  /*Vykreslování jídla po celé ploše canvasu*/
   if (snakeX === jahoda.x && snakeY === jahoda.y) {
     score++;
     jahoda.x = (Math.floor(Math.random() * (18 - 1) + 1)) * pixelCtverec;
@@ -106,25 +98,26 @@ function draw() {
     //Metoda pop() odstraní poslední prvek z pole a vrátí jej
     snake.pop();
   }
-  //Rules
+  /*Pravidla pro ukončení hry z důvodu kolize, např. na mantinel*/
   if (snakeX < 0 || snakeX > 18 * pixelCtverec || snakeY < 0 || snakeY > 18 * pixelCtverec || collision({
-      x: snakeX,
-      y: snakeY
-    }, snake)) {
+    x: snakeX,
+    y: snakeY
+  }, snake)) {
     clearInterval(game);
     ctx.fillStyle = 'white';
     ctx.fillText("SKONČIL JSI!", 150, 326);
-    setInterval(function(){
+    setInterval(function () {
       location.reload();
-    },5000);
+    }, 5000);
   }
-  snake.unshift({
+  snake.unshift({ //prototyp unshift vloží na začátek pole hodnoty
     x: snakeX,
     y: snakeY
   });
 
   ctx.fillStyle = 'white';
   ctx.font = '45px Changa one';
+  /*Vypsání hodnot do canvasu*/
   ctx.fillText("Skóre: " + score, 1 * pixelCtverec, 1.6 * pixelCtverec);
   ctx.fillText("Herní čas:", 9 * pixelCtverec, 1.6 * pixelCtverec);
   if (minuty <= 9) {
@@ -137,7 +130,7 @@ function draw() {
   } else
     ctx.fillText(datum, 17 * pixelCtverec, 1.6 * pixelCtverec);
 }
-
+/*Funkce kol() reaguje na to, jakou úroveň rychlosti si hráč vybral*/
 function kol() {
   button.addEventListener('click', function () {
     clearInterval(game);
@@ -161,5 +154,5 @@ function kol() {
     buttonP.setAttribute('disabled', true);
   })
 }
+/*Volání funkce kol()*/
 kol();
-//vypisCas();
