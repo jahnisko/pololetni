@@ -9,9 +9,6 @@ let minuty = 0;
 let interval = 0;
 let speed = 2;
 let game = 0;
-let hra = 0;
-let gamePaused = false;
-let gameLoop;
 let buttonS = document.getElementById('spustitS');
 let buttonP = document.getElementById('spustitP');
 let button = document.getElementById('spustit');
@@ -35,15 +32,7 @@ let jahoda = {
 let d;
 let score = 0;
 document.addEventListener('keydown', direction);
-function pauseGame() {
-  if (!gamePaused) {
-    hra = clearTimeout(hra);
-    gamePaused = true;
-  } else if (gamePaused) {
-    hra = setTimeout(gameLoop, 1000 / 30);
-    gamePaused = false;
-  }
-}
+
 /*Testování kláves pro šipky*/
 function direction(event) {
 
@@ -55,8 +44,6 @@ function direction(event) {
     d = 'RIGHT';
   else if (event.keyCode === 40)
     d = 'DOWN';
-  else if(event.keyCode === 80)
-    pauseGame();
 }
 /*Kolize*/
 function collision(newhead, snake) {
