@@ -44,6 +44,8 @@ function direction(event) {
     d = 'RIGHT';
   else if (event.keyCode === 40)
     d = 'DOWN';
+  else if (event.keyCode === 27)
+    d = 'ESC';
 }
 /*Kolize*/
 function collision(newhead, snake) {
@@ -79,10 +81,11 @@ function draw() {
     snakeX += pixelCtverec;
   if (d === 'DOWN')
     snakeY += pixelCtverec;
+
   /*Podle stisknutí klávesy šipek se spustí herní čas*/
   else if (d === 'LEFT' || d === 'RIGHT' || d === 'DOWN' || d === 'UP') {
     date = new Date();
-    datum = Math.floor((((date - startDate) / 100) /100)*10);
+    datum = Math.floor((((date - startDate) / 100) / 100) * 10);
     if (datum >= 60) {
       minuty++;
       datum = 0;
@@ -102,7 +105,7 @@ function draw() {
   if (snakeX < 0 || snakeX > 18 * pixelCtverec || snakeY < 0 || snakeY > 18 * pixelCtverec || collision({
     x: snakeX,
     y: snakeY
-  }, snake)) {
+  }, snake) || d === 'ESC') {
     clearInterval(game);
     ctx.fillStyle = 'white';
     ctx.fillText("SKONČIL JSI!", 150, 326);
@@ -129,6 +132,10 @@ function draw() {
     ctx.fillText("0" + datum, 17 * pixelCtverec, 1.6 * pixelCtverec);
   } else
     ctx.fillText(datum, 17 * pixelCtverec, 1.6 * pixelCtverec);
+  ctx.fillStyle = 'white';
+  ctx.font = "25px Changa one";
+  ctx.fillText("Chceš skončit s hraním? Stiskni ESC.", 120, 600);
+  ctx.font = '45px Changa one';
 }
 /*Funkce kol() reaguje na to, jakou úroveň rychlosti si hráč vybral*/
 function kol() {
