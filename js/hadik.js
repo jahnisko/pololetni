@@ -121,7 +121,7 @@ function draw() {
   ctx.font = '45px Changa one';
   /*Vypsání hodnot do canvasu*/
   ctx.fillText("Skóre: " + score, 1 * pixelCtverec, 1.6 * pixelCtverec);
-  ctx.fillText("Herní čas:", 9 * pixelCtverec, 1.6 * pixelCtverec);
+  ctx.fillText("Čas:", 11 * pixelCtverec, 1.6 * pixelCtverec);
   if (minuty <= 9) {
     ctx.fillText("0" + minuty, 15 * pixelCtverec, 1.6 * pixelCtverec);
   } else
