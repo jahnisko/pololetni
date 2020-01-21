@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 const pixelCtverec = 32; //inicalizace čtverce v canvasu o velikosti 32px*32px
 let startDate = new Date();
 let date = 0;
-let datum;
+let datum = 1;
 let minuty = 0;
 let interval = 0;
 let speed = 2;
@@ -88,7 +88,6 @@ function draw() {
     datum = Math.floor((((date - startDate) / 100) / 100) * 10);
     if (datum >= 60) {
       minuty++;
-      datum = 0;
       startDate = new Date();
     }
   }
